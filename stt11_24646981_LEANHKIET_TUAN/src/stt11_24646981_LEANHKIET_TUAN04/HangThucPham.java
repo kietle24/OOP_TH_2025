@@ -1,5 +1,5 @@
 package stt11_24646981_LEANHKIET_TUAN04;
-import java.text.DecimalFormat;
+
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,22 +13,17 @@ public class HangThucPham {
     private LocalDate ngayHetHan;
     private LoaiHang loai;
 
-    public HangThucPham() {
-
-    }
-
     public HangThucPham(String ma) {
-        this(ma, "no-name", 1.0, LocalDate.now(), LocalDate.now(), LoaiHang.HOP);
+        this(ma, "Chưa có tên", 0, LocalDate.now(), LocalDate.now(), LoaiHang.HOP);
     }
 
-    public HangThucPham(String ma, String ten, double donGia, LocalDate ngaySanXuat, LocalDate ngayHetHan,
-            LoaiHang loai) {
-        setDonGia(donGia);
+    public HangThucPham(String ma, String ten, double donGia, LocalDate ngaySanXuat, LocalDate ngayHetHan, LoaiHang loai) {
         setMa(ma);
+        setTen(ten);
+        setDonGia(donGia);
         setNgaySanXuat(ngaySanXuat);
         setNgayHetHan(ngayHetHan);
-        setTen(ten);
-        this.loai = loai;  // <-- added this line
+        setLoai(loai);
     }
 
     public String getMa() {
@@ -36,10 +31,11 @@ public class HangThucPham {
     }
 
     public void setMa(String ma) {
-        if (ma == null || ma.isEmpty()) {
-            ma = "xxxxxx";
+        if (ma != null && !ma.trim().isEmpty()) {
+            this.ma = ma;
+        } else {
+            this.ma = "000000";
         }
-        this.ma = ma;
     }
 
     public String getTen() {
@@ -47,10 +43,11 @@ public class HangThucPham {
     }
 
     public void setTen(String ten) {
-        if (ten == null || ten.isEmpty()) {
-            ten = "no-name";
+        if (ten != null && !ten.trim().isEmpty()) {
+            this.ten = ten;
+        } else {
+            this.ten = "Chưa có tên";
         }
-        this.ten = ten;
     }
 
     public double getDonGia() {
@@ -58,10 +55,11 @@ public class HangThucPham {
     }
 
     public void setDonGia(double donGia) {
-        if (donGia <= 0) {
-            donGia = 1;
+        if (donGia >= 0) {
+            this.donGia = donGia;
+        } else {
+            this.donGia = 0;
         }
-        this.donGia = donGia;
     }
 
     public LocalDate getNgaySanXuat() {
@@ -69,10 +67,11 @@ public class HangThucPham {
     }
 
     public void setNgaySanXuat(LocalDate ngaySanXuat) {
-        if (ngaySanXuat == null || ngaySanXuat.isAfter(LocalDate.now())) {
-            ngaySanXuat = LocalDate.now();
+        if (ngaySanXuat != null && !ngaySanXuat.isAfter(LocalDate.now())) {
+            this.ngaySanXuat = ngaySanXuat;
+        } else {
+            this.ngaySanXuat = LocalDate.now();
         }
-        this.ngaySanXuat = ngaySanXuat;
     }
 
     public LocalDate getNgayHetHan() {
@@ -80,27 +79,29 @@ public class HangThucPham {
     }
 
     public void setNgayHetHan(LocalDate ngayHetHan) {
-        if (ngayHetHan == null || ngayHetHan.compareTo(getNgaySanXuat()) <= 0) {
-            ngayHetHan = LocalDate.now();
+        if (ngayHetHan != null && ngayHetHan.isAfter(this.ngaySanXuat)) {
+            this.ngayHetHan = ngayHetHan;
+        } else {
+            this.ngayHetHan = this.ngaySanXuat;
         }
-        this.ngayHetHan = ngayHetHan;
     }
-    public boolean hetHan() {
-  
-        return !ngayHetHan.isAfter(LocalDate.now());
+    
+    public LoaiHang getLoai() {
+        return loai;
+    }
+
+    public void setLoai(LoaiHang loai) {
+        this.loai = loai;
     }
 
     @Override
     public String toString() {
-        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
-        DecimalFormat df = new DecimalFormat("#,##0");
+        Locale localeVN = new Locale("vi", "VN");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(localeVN);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return String.format("%6s | %15s | %10s | %12s | %12s | %8s",
-                ma,
-                ten,
-                df.format(donGia),
-                dtf.format(ngaySanXuat),
-                dtf.format(ngayHetHan),
-                hetHan() ? "het han" : "con hang");
+        String ghiChu = this.ngayHetHan.isBefore(LocalDate.now()) ? "Hết hạn" : "Còn hạn";
+        
+        return String.format("%-8s | %-15s | %15s | %12s | %12s | %-10s | %s",
+                this.ma, this.ten, nf.format(this.donGia), dtf.format(this.ngaySanXuat), dtf.format(this.ngayHetHan), this.loai, ghiChu);
     }
 }
