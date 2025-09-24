@@ -41,7 +41,4 @@ public void setScore(double score) {
 public String toString() {
 	return "Student [fullname=" + fullname + ", ID=" + ID + ", dob=" + dob + ", score=" + score + "]";
 } 
-
-
-
 }
