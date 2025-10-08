@@ -4,13 +4,13 @@ import java.util.Scanner;
 public class test {
 public static void main(String[] args) {
 	Scanner sc  = new Scanner(System.in) ; 
-	DanhSachSinhVien dsssv  = new DanhSachSinhVien() ; 
+	DanhSachSinhVien dssv  = new DanhSachSinhVien() ; 
 	int choices = 0 ; 
 	do { 
 		 System.out.println("MENU--------");
 		 System.out.println("chon chuc nang ");
 		 System.out.println(
-				 "1.them sinh vien\n " 
+				 " 1.them sinh vien\n " 
 				 +"2.in danh sach\n"
 				 +"3.kiem tra danh sach co rong hay khong \n"
 				 +"4.lay so luong sinh vien trong danh sach \\n"
@@ -27,9 +27,8 @@ public static void main(String[] args) {
 			 System.out.println("nhap nam sinh sinh vien ");int namSinh = sc.nextInt() ; 
 			 System.out.println("nhap diem TB Cho sinh vien ");float diemTB = sc.nextFloat() ; 
 			 SinhVien sv1 = new SinhVien(maSV,hoVaTen, namSinh,diemTB ) ; 
-			 
 		 }else if (choices == 2)  { 
-			 System.out.println("in danh sach "); String maSV = sc.nextLine() ; 
+			 dssv.inDanhSachSV()  ;
 		 }else if (choices == 3)  { 
 			 
 		 }else if (choices == 4)  { 

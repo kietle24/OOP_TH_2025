@@ -1,7 +1,5 @@
 package QLSV_ARRAYLIST;
-
 import java.util.ArrayList;
-
 public class DanhSachSinhVien {
 private ArrayList <SinhVien> danhSach ;
 //construct khong nhap gi 
@@ -24,5 +22,4 @@ public void inDanhSachSV( ) {
 		System.out.println(sv);
 	}
 }
-
 }
